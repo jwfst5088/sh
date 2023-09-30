@@ -1071,7 +1071,7 @@ case $choice in
       sed -i "s/localhost/$localhostIP/g" /home/web/conf.d/default.conf
 
       # 下载 docker-compose.yml 文件并进行替换
-      wget -O /home/web/docker-compose.yml https://raw.githubusercontent.com/kejilion/docker/main/LNMP-docker-compose-10.yml
+      wget -O /home/web/docker-compose.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/docker-compose.yml
 
       dbrootpasswd=$(openssl rand -base64 16) && dbuse=$(openssl rand -hex 4) && dbusepasswd=$(openssl rand -base64 8)
 
@@ -1572,11 +1572,8 @@ case $choice in
       ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
 
       docker start nginx
-
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-      wget -O /home/web/docker-compose.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/docker-compose.yml
-      docker exec nginx chmod -R 777 /var/www/html && docker exec php chmod -R 777 /var/www/html && docker exec php74 chmod -R 777 /var/www/html
+      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf     
       cd /home/web && docker-compose up -d
       docker restart php && docker restart php74 && docker restart nginx
 
