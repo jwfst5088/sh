@@ -1575,7 +1575,7 @@ case $choice in
 
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-      wget -O /home/web/conf.d/$yuming.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/docker-compose.yml
+      wget -O /home/web/$yuming.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/docker-compose.yml
       docker exec nginx chmod -R 777 /var/www/html && docker exec php chmod -R 777 /var/www/html && docker exec php74 chmod -R 777 /var/www/html
       docker restart php && docker restart php74 && docker restart nginx
 
