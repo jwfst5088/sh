@@ -1574,8 +1574,8 @@ case $choice in
       ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
 
       
-      
-      wget -O /home/web/conf.d/$yuming.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/docker-compose.yml
+      wget -O /home/web/docker-compose.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/docker-compose.yml
+      #wget -O /home/web/conf.d/$yuming.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/docker-compose.yml
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
 
       docker start nginx
