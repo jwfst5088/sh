@@ -1561,25 +1561,24 @@ case $choice in
       10)
       clear
       # 安装 X-UI
-      bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
       read -p "请输入你解析的域名: " yuming
       dbname=$(echo "$yuming" | sed -e 's/[^A-Za-z0-9]/_/g')
       dbname="${dbname}"
 
       docker stop nginx
-      systemctl stop x-ui
 
       cd ~
       curl https://get.acme.sh | sh
       ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
 
-      
-      wget -O /home/web/docker-compose.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/docker-compose.yml
-      #wget -O /home/web/conf.d/$yuming.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/docker-compose.yml
-      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-
       docker start nginx
-      systemctl start x-ui
+
+      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
+      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+      wget -O /home/web/conf.d/$yuming.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/docker-compose.yml
+      docker exec nginx chmod -R 777 /var/www/html && docker exec php chmod -R 777 /var/www/html && docker exec php74 chmod -R 777 /var/www/html
+      docker restart php && docker restart php74 && docker restart nginx
+
       ;;
 
       21)
