@@ -1564,8 +1564,8 @@ case $choice in
       sudo apt install snapd nginx
       sudo snap install core
       sudo snap refresh core
-      sudo snap install --classic certbot
-      sudo ln -s /snap/bin/certbot /usr/bin/certbot
+      #sudo snap install --classic certbot
+      #sudo ln -s /snap/bin/certbot /usr/bin/certbot
       
       #touch /etc/nginx/conf.d/xui.conf
       
