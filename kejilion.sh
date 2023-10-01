@@ -1091,9 +1091,7 @@ case $choice in
       fi
 
       cd /home/web && docker-compose up -d
-      docker exec x-ui chmod -R 777 /etc/x-ui
-
-
+      
       clear
       echo "正在配置LDNMP环境，请耐心稍等……"
 
@@ -1583,9 +1581,9 @@ case $choice in
 
       docker start nginx
 
-      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
+      wget -O /etc/nginx/conf.d/xui.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-      docker exec x-ui chmod -R 777 /etc/x-ui
+      
       cd /home/web && docker-compose up -d
       
       docker restart nginx
