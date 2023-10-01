@@ -1575,9 +1575,9 @@ case $choice in
 
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-      wget -O /home/web/xui-compose.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/xui-compose.yml
+      wget -O /home/web/x-ui/xui-compose.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/xui-compose.yml
       docker restart nginx
-      cd /home/web && docker-compose up -d
+      cd /home/web/x-ui && docker-compose up -d
       
       ;;
       21)
