@@ -1583,11 +1583,12 @@ case $choice in
       
       wget -O /etc/nginx/conf.d/xui.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /etc/nginx/conf.d/xui.conf
+      
       nginx -s reload
       
       mkdir x-ui && cd x-ui
       
-      docker run -itd --network=host \
+      docker run -d \
           -v $PWD/db/:/etc/x-ui/ \
           -v $PWD/cert/:/root/cert/ \
           --name x-ui --restart=unless-stopped \
@@ -1595,7 +1596,6 @@ case $choice in
       
       wget https://raw.githubusercontent.com/jwfst5088/wpxui/main/xui-compose.yml
       docker-compose up -d
-      
       ;;
       21)
       clear
