@@ -1583,10 +1583,9 @@ case $choice in
 
       wget -O /etc/nginx/conf.d/xui.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-      
+      ngins -s reload
       cd /home/web && docker-compose up -d
       
-      docker restart nginx
       ;;
       21)
       clear
