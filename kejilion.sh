@@ -1566,33 +1566,33 @@ case $choice in
       sudo snap refresh core
       sudo snap install --classic certbot
       sudo ln -s /snap/bin/certbot /usr/bin/certbot
-
+      
       touch /etc/nginx/conf.d/xui.conf
-
+      
       read -p "请输入你解析的域名: " yuming
       dbname=$(echo "$yuming" | sed -e 's/[^A-Za-z0-9]/_/g')
       dbname="${dbname}"
-
+      
       docker stop nginx
-
+      
       cd ~
       curl https://get.acme.sh | sh
       ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
-
+      
       docker start nginx
-
+      
       wget -O /etc/nginx/conf.d/xui.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-      ngins -s reload
-
+      sed -i "s/yuming.com/$yuming/g" /etc/nginx/conf.d/xui.conf
+      nginx -s reload
+      
       mkdir x-ui && cd x-ui
-   
+      
       docker run -itd --network=host \
           -v $PWD/db/:/etc/x-ui/ \
           -v $PWD/cert/:/root/cert/ \
           --name x-ui --restart=unless-stopped \
           enwaiax/x-ui
-  
+      
       wget https://raw.githubusercontent.com/jwfst5088/wpxui/main/xui-compose.yml
       docker-compose up -d
       
