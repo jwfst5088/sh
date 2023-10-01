@@ -1562,6 +1562,15 @@ case $choice in
       10)
       clear
       # 安装 X-UI
+      sudo apt update
+      sudo apt install snapd nginx
+      sudo snap install core
+      sudo snap refresh core
+      sudo snap install --classic certbot
+      sudo ln -s /snap/bin/certbot /usr/bin/certbot
+
+      touch /etc/nginx/conf.d/xui.conf
+
       read -p "请输入你解析的域名: " yuming
       dbname=$(echo "$yuming" | sed -e 's/[^A-Za-z0-9]/_/g')
       dbname="${dbname}"
