@@ -1586,6 +1586,13 @@ case $choice in
       ngins -s reload
 
       mkdir x-ui && cd x-ui
+   
+      docker run -itd --network=host \
+          -v $PWD/db/:/etc/x-ui/ \
+          -v $PWD/cert/:/root/cert/ \
+          --name x-ui --restart=unless-stopped \
+          enwaiax/x-ui
+  
       wget https://raw.githubusercontent.com//chasing66/x-ui/main/docker-compose.yml
       docker-compose up -d
       
