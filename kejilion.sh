@@ -1091,6 +1091,7 @@ case $choice in
       fi
 
       cd /home/web && docker-compose up -d
+      docker exec x-ui chmod -R 777 /etc/x-ui
 
 
       clear
