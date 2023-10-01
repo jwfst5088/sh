@@ -1572,13 +1572,14 @@ case $choice in
       ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
 
       docker start nginx
+
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf     
-      cd /home/web && docker-compose up -d
-      docker restart php && docker restart php74 && docker restart nginx
-
+      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+      wget -O /home/web/xui-compose.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/xui-compose.yml
+      docker restart nginx
+      cd /home/web && xui-compose up -d
+      
       ;;
-
       21)
       clear
       read -p "请输入你的域名: " yuming
