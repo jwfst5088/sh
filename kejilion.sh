@@ -1575,10 +1575,12 @@ case $choice in
 
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+       # 创建必要的目录和文件
+      cd /home && mkdir -p web/x-ui && touch web/x-ui/xui-compose.yml
       wget -O /home/web/x-ui/xui-compose.yml https://raw.githubusercontent.com/jwfst5088/wpxui/main/xui-compose.yml
-      docker restart nginx
-      cd /home/web/x-ui && docker-compose up -d
       
+      cd /home/web/x-ui && docker-compose up -d
+      docker restart nginx
       ;;
       21)
       clear
