@@ -1567,7 +1567,7 @@ case $choice in
       sudo snap install --classic certbot
       sudo ln -s /snap/bin/certbot /usr/bin/certbot
       
-      #touch /etc/nginx/conf.d/xui.conf
+      touch /etc/nginx/conf.d/xui.conf
       
       read -p "请输入你解析的域名: " yuming
       dbname=$(echo "$yuming" | sed -e 's/[^A-Za-z0-9]/_/g')
@@ -1580,10 +1580,10 @@ case $choice in
       ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
       
       docker start nginx
-      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-      #wget -O /etc/nginx/conf.d/xui.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      #sed -i "s/yuming.com/$yuming/g" /etc/nginx/conf.d/xui.conf
+      #wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
+      #sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+      wget -O /etc/nginx/conf.d/xui.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
+      sed -i "s/yuming.com/$yuming/g" /etc/nginx/conf.d/xui.conf
       #nginx -s reload
       docker exec nginx nginx -s reload
       mkdir x-ui && cd x-ui
