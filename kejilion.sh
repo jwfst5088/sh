@@ -1577,6 +1577,7 @@ case $choice in
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
       
       cd /home/web && docker-compose up -d
+      docker exec x-ui chmod -R 777 /etc/x-ui
       docker restart nginx
       ;;
       21)
