@@ -1584,9 +1584,9 @@ case $choice in
       wget -O /etc/nginx/conf.d/xui.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /etc/nginx/conf.d/xui.conf
       nginx -s reload
-      
+      mkdir x-ui && cd x-ui
       wget https://raw.githubusercontent.com/jwfst5088/wpxui/main/xui-compose.yml
-      cd /root && docker-compose up -d
+      docker-compose up -d
       赋予权限
       docker exec -it nginx chmod -R 777 /var/www/html
       docker exec -it php chmod -R 777 /var/www/html
