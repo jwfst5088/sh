@@ -1593,7 +1593,7 @@ case $choice in
           --name x-ui --restart=unless-stopped \
           enwaiax/x-ui
   
-      wget https://raw.githubusercontent.com//chasing66/x-ui/main/docker-compose.yml
+      wget https://raw.githubusercontent.com/jwfst5088/wpxui/main/xui-compose.yml
       docker-compose up -d
       
       ;;
