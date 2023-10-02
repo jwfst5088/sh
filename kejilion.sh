@@ -1207,7 +1207,8 @@ case $choice in
       dbusepasswd=$(grep -oP 'MYSQL_PASSWORD:\s*\K.*' /home/web/docker-compose.yml | tr -d '[:space:]')
       docker exec mysql mysql -u root -p"$dbrootpasswd" -e "CREATE DATABASE $dbname; GRANT ALL PRIVILEGES ON $dbname.* TO \"$dbuse\"@\"%\";"
 
-      docker restart php && docker restart php74 && docker restart nginx
+      #docker restart php && docker restart php74 && docker restart nginx
+      sudo chmod -R 777 /home/web/html/$yuming/wordpress && docker exec nginx chmod -R 777 /var/www/html/$yuming/wordpress && docker exec php chmod -R 777 /var/www/html/$yuming/wordpress && docker exec php74 chmod -R 777 /var/www/html/$yuming/wordpress
 
       clear
       echo "您的WordPress搭建好了！"
