@@ -1584,12 +1584,12 @@ case $choice in
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
       #wget -O /etc/nginx/conf.d/xui.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       #sed -i "s/yuming.com/$yuming/g" /etc/nginx/conf.d/xui.conf
-      
+      #nginx -s reload
       docker exec nginx nginx -s reload
       mkdir x-ui && cd x-ui
       wget https://raw.githubusercontent.com/jwfst5088/wpxui/main/xui-compose.yml
       docker-compose -f xui-compose.yml up -d
-      nginx -s reload
+      
       ;;
       21)
       clear
