@@ -1190,7 +1190,7 @@ case $choice in
 
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/kejilion/nginx/main/wordpress.com.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-
+      docker exec nginx nginx -s reload
       cd /home/web/html
       mkdir $yuming
       cd $yuming
