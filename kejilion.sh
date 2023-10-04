@@ -1566,25 +1566,43 @@ case $choice in
       #sudo snap install --classic certbot
       #sudo ln -s /snap/bin/certbot /usr/bin/certbot
       
+      #!/bin/bash
+
+      # Create a directory for x-ui and navigate into it.
       mkdir x-ui && cd x-ui
-      wget https://raw.githubusercontent.com//chasing66/x-ui/main/docker-compose.yml
-      docker compose up -d
       
-      #touch /etc/nginx/conf.d/xui.conf
+      # Download the docker-compose file for x-ui.
+      wget https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
+      
+      # Start the Docker services defined in the docker-compose file.
+      docker compose up -d
       
       read -p "请输入你解析的域名: " yuming
       
+      # Stop nginx container (Assuming you have an nginx container running).
       docker stop nginx
+      
       cd ~
       curl https://get.acme.sh | sh
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
-      docker start nginx
+      source ~/.bashrc # Ensure acme.sh is in PATH.
       
+      # Register account and issue certificate, replace 'your_email@gmail.com' with your email.
+      ~/.acme.sh/acme.sh --register-account -m your_email@gmail.com
+      ~/.acme.sh/acme.sh --issue --standalone -d $yuming --force 
+      
+      # Install certificates to specified location.
+      mkdir -p /home/web/certs/
+      ~/.acme.sh/acme.sh --install-cert -d $yuming \
+      --key-file       /home/web/certs/${yuming}_key.pem  \
+      --fullchain-file /home/web/certs/${yuming}_cert.pem 
+      
+      docker start nginx
+            
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+      
+      nginx -t && nginx -s reload 
 
-      nginx -t
-      ngins -s reload
       ;;
 
       21)
