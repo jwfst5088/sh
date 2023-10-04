@@ -1564,30 +1564,28 @@ case $choice in
       read -p "请输入你解析的域名: " yuming
       
       # 停止 Nginx 容器。
-      docker stop nginx
+      docker stop nginx || exit 1
       
       # 安装 acme.sh。
-      curl https://get.acme.sh | sh
+      curl https://get.acme.sh | sh || exit 1
       
       # 注册 Let's Encrypt 账户并生成证书。
       ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue --standalone -d $yuming \
       --key-file /root/out/${yuming}.key \
-      --fullchain-file /root/out/${yuming}.cer 
+      --fullchain-file /root/out/${yuming}.cer || exit 1
       
       # 启动 X-UI 并保持容器运行（在 Docker 容器内执行）。
-      x-ui start && sleep infinity
+      x-ui start && sleep infinity || exit 1
       
       # 下载并修改 Nginx 配置文件，替换其中的 yuming.com 为用户输入的域名。
-      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      sed -i "s#/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-      sed -i "s#/root \/usr\/share\/nginx\/html\/yuming\.com;/root \/usr\/share\/nginx\/html\/$yuming;/g" /home/web/conf.d/$yuming.conf
-      sed -i "s#/access_log  \/usr\/share\/nginx\/html\/yumbing\.com\//access_log  \/usr/share/nginx/html\//$yumming\//g" /home/web/conf.d/$yumming.conf
-      sed -i "s#/error_log   \/usr/share/nginx/html/yumbing\.com/error_log   \/usr/share/nginx/html\$yumming/g" /home/web/conf.d/$yumming.conf
+      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf || exit 1
+      sed -i "s/yuming\.com/$yuming/g" /home/web/conf.d/$yuming.conf || exit 1
+      sed -i "s#root \/usr\/share\/nginx\/html\/yuming\.com;#root \/usr\/share\/nginx\/html\/$yuming;#g" /home/web/conf.d/$yuming.conf || exit 1
+      sed -i "s/access_log.*$/access_log \/usr/share/nginx/html/${yumbing}\/sssvip.log;/g" /home/web/conf.d/$yumming.conf || exit 1
+      sed -i "s/error_log.*$/error_log \/usr/share/nginx/html/${yumming}\/sssvip.error.log;/g" /home/web/conf.d/$yumming.conf||exit 1
       
-      # 使用新配置启动所有服务。
       docker-compose up -d 
       
-      # 重载 Nginix 配置文件以应用更改。
       docker exec nginx nginx -s reload 
 
       ;;
