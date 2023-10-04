@@ -1568,6 +1568,34 @@ case $choice in
       #sudo ln -s /snap/bin/certbot /usr/bin/certbot
       
       #touch /etc/nginx/conf.d/xui.conf
+      #创建一个docker网络：
+      docker network create --subnet 192.168.18.0/24 --gateway 192.168.18.1 anqiqii
+      
+      #使用docker部署x-ui：这里将部署x-ui的容器放置在了我们之前创建的网络anqiqii上并给了一个固定的ip地址，这么做是为了之后使用nginx反代服务的。
+      cd /home && mkdir x-ui && cd x-ui
+      docker run -itd --network=anqiqii --ip 192.168.18.2 \
+          -v $PWD/db/:/etc/x-ui/ \
+          -v $PWD/cert/:/root/cert/ \
+          --name x-ui --restart=unless-stopped \
+          enwaiax/x-ui:latest
+      
+      #安装 nginx：
+      docker run -d \
+      --name nginx --network=anqiqii --ip 192.168.18.15 \
+      -p 80:80 \
+      -p 443:443 \
+      -v /home/nginx/conf.d:/etc/nginx/conf.d \
+      -v /home/nginx/html:/usr/share/nginx/html \
+      anqiqii/nginx-certbot
+
+
+
+
+
+
+
+
+
       
       read -p "请输入你解析的域名: " yuming
       dbname=$(echo "$yuming" | sed -e 's/[^A-Za-z0-9]/_/g')
