@@ -1583,11 +1583,11 @@ case $choice in
       sed -i "s#root \/usr\/share\/nginx\/html\/yuming\.com;#root \/usr\/share\/nginx\/html\/$yuming;#g" /home/web/conf.d/$yuming.conf || exit 1
       sed -i "s/access_log.*$/access_log \/usr/share/nginx/html/${yumbing}\/sssvip.log;/g" /home/web/conf.d/$yumming.conf || exit 1
       sed -i "s/error_log.*$/error_log \/usr/share/nginx/html/${yumming}\/sssvip.error.log;/g" /home/web/conf.d/$yumming.conf||exit 1
-      
+      docker restart nginx
       docker-compose up -d 
       
       docker exec nginx nginx -s reload 
-      docker restart nginx
+      
 
       ;;
 
