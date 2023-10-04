@@ -1570,7 +1570,7 @@ case $choice in
       wget https://raw.githubusercontent.com//chasing66/x-ui/main/docker-compose.yml
       docker compose up -d
       
-      touch /etc/nginx/conf.d/xui.conf
+      #touch /etc/nginx/conf.d/xui.conf
       
       read -p "请输入你解析的域名: " yuming
       
