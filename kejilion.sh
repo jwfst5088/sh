@@ -1581,7 +1581,7 @@ case $choice in
       
       #安装 nginx：
       docker run -d \
-      --name nginx --network=anqiqii --ip 192.168.18.15 \
+      --network=anqiqii --ip 192.168.18.15 \
       -p 80:80 \
       -p 443:443 \
       -v /home/nginx/conf.d:/etc/nginx/conf.d \
