@@ -1586,7 +1586,7 @@ case $choice in
       -p 443:443 \
       -v /home/nginx/conf.d:/etc/nginx/conf.d \
       -v /home/nginx/html:/usr/share/nginx/html \
-      anqiqii/nginx1-certbot
+      anqiqii/nginx-certbot
 
 
 
