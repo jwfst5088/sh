@@ -1587,6 +1587,7 @@ case $choice in
       docker-compose up -d 
       
       docker exec nginx nginx -s reload 
+      docker restart nginx
 
       ;;
 
