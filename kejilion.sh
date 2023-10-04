@@ -1576,7 +1576,7 @@ case $choice in
           -v $PWD/cert/:/root/cert/ \
           --name xui --restart=unless-stopped \
           enwaiax/x-ui:latest
-      
+      docker stop nginx
       # 安装 nginx：
       docker run -d --name nginx_new --network=anqiqii --ip 192.168.18.15 \
       -p 80:80 \
@@ -1601,7 +1601,7 @@ case $choice in
       --force
             
       docker start nginx_new
-      
+      docker start nginx
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
