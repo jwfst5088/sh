@@ -1558,59 +1558,46 @@ case $choice in
         ;;
 
       10)
-      # 安装 X-UI
-      #sudo apt update
-      sudo apt install snapd nginx
-      sudo snap install core
-      sudo snap refresh core
-      sudo snap install --classic certbot
-      sudo ln -s /snap/bin/certbot /usr/bin/certbot
-      
-      # 创建一个docker网络：
-      docker network create --subnet 192.168.18.0/24 --gateway 192.168.18.1 anqiqii
-      
-      # 使用docker部署x-ui：这里将部署x-ui的容器放置在了我们之前创建的网络anqiqii上并给了一个固定的ip地址，这么做是为了之后使用nginx反代服务。
-      cd /home && mkdir x-ui && cd x-ui
-      docker run -itd --network=anqiqii --ip 192.168.18.2 \
-          -v $PWD/db/:/etc/x-ui/ \
-          -v $PWD/cert/:/root/cert/ \
-          --name xui --restart=unless-stopped \
-          enwaiax/x-ui:latest
-      docker stop nginx
-      # 安装 nginx：
-      docker run -d --name nginx_new --network=anqiqii --ip 192.168.18.15 \
-      -p 80:80 \
-      -p 443:443 \
-      -v /home/nginx/conf.d:/etc/nginx/conf.d \
-      -v /home/nginx/html:/usr/share/nginx/html \
-      anqiqii/nginx-certbot
-            
+      #!/bin/bash
+
+      # 创建并赋予 generate_cert.sh 执行权限。
+      cat << EOF > generate_cert.sh
+      #!/bin/bash
+
+      # 读取用户输入的域名。
       read -p "请输入你解析的域名: " yuming
       
-      dbname=$(echo "$yuming" | sed -e 's/[^A-Za-z0-9]/_/g')
-      dbname="${dbname}"
-            
-      docker stop nginx_new
-            
-      cd ~
+      # 停止 Nginx 容器。
+      docker stop nginx
+      
+      # 安装 acme.sh。
       curl https://get.acme.sh | sh
       
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone 
-      --key-file /home/web/certs/${yuming}_key.pem --
-      cert-file /home/web/certs/${yuming}_cert.pem 
-      --force
-            
-      docker start nginx_new
-      docker start nginx
-      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
+      # 注册 Let's Encrypt 账户并生成证书。
+      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue --standalone -d $yuming \
+      --key-file /root/out/${yuming}.key \
+      --fullchain-file /root/out/${yuming}.cer 
       
+      # 启动 X-UI 并保持容器运行（在 Docker 容器内执行）。
+      x-ui start && sleep infinity
+      
+      # 重新启动 Nginx 容器。
+      docker start nginx
+      
+      # 下载并修改 Nginx 配置文件。
+      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
       
-      docker exec nginx_new nginx -s reload 
-
-
+      # 使用新配置启动所有服务。
+      docker-compose up -d 
       
+      # 重载 Nginix 配置文件以应用更改。
+      docker exec nginx nginx -s reload 
+      EOF
+      chmod +x generate_cert.sh # 给脚本添加执行权限
+      ./generate_cert.sh # 执行脚本
       ;;
+
       21)
       clear
       read -p "请输入你的域名: " yuming
