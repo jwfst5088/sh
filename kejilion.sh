@@ -1579,10 +1579,10 @@ case $choice in
       
       # 下载并修改 Nginx 配置文件，替换其中的 yuming.com 为用户输入的域名。
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-      sed -i "s/root \/usr\/share\/nginx\/html\/yuming\.com;/root \/usr\/share\/nginx\/html\/$yuming;/g" /home/web/conf.d/$yuming.conf
-      sed -i "s/access_log  \/usr\/share\/nginx\/html\/yumbing\.com\//access_log  \/usr/share/nginx/html\//$yumming\//g" /home/web/conf.d/$yumming.conf
-      sed -i "s/error_log   \/usr/share/nginx/html/yumbing\.com/error_log   \/usr/share/nginx/html\$yumming/g" /home/web/conf.d/$yumming.conf
+      sed -i "s#/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+      sed -i "s#/root \/usr\/share\/nginx\/html\/yuming\.com;/root \/usr\/share\/nginx\/html\/$yuming;/g" /home/web/conf.d/$yuming.conf
+      sed -i "s#/access_log  \/usr\/share\/nginx\/html\/yumbing\.com\//access_log  \/usr/share/nginx/html\//$yumming\//g" /home/web/conf.d/$yumming.conf
+      sed -i "s#/error_log   \/usr/share/nginx/html/yumbing\.com/error_log   \/usr/share/nginx/html\$yumming/g" /home/web/conf.d/$yumming.conf
       
       # 使用新配置启动所有服务。
       docker-compose up -d 
