@@ -1559,16 +1559,21 @@ case $choice in
 
       10)
       clear
-      sudo apt update
-      sudo apt install snapd nginx
-      sudo snap install core
-      sudo snap refresh core
-      sudo snap install --classic certbot
-      sudo ln -s /snap/bin/certbot /usr/bin/certbot
+      #sudo apt update
+      #sudo apt install snapd nginx
+      #sudo snap install core
+      #sudo snap refresh core
+      #sudo snap install --classic certbot
+      #sudo ln -s /snap/bin/certbot /usr/bin/certbot
+      
+      mkdir x-ui && cd x-ui
+      wget https://raw.githubusercontent.com//chasing66/x-ui/main/docker-compose.yml
+      docker compose up -d
       
       touch /etc/nginx/conf.d/xui.conf
       
       read -p "请输入你解析的域名: " yuming
+      
       docker stop nginx
       cd ~
       curl https://get.acme.sh | sh
@@ -1577,10 +1582,9 @@ case $choice in
       
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-      
-      mkdir x-ui && cd x-ui
-      wget https://raw.githubusercontent.com//chasing66/x-ui/main/docker-compose.yml
-      docker compose up -d
+
+      nginx -t
+      ngins -s reload
       ;;
 
       21)
