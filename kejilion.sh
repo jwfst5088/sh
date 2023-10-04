@@ -1560,34 +1560,32 @@ case $choice in
       10)
       #!/bin/bash
 
-      # 读取用户输入的域名。
-      read -p "请输入你解析的域名: " yuming
+      # Read the domain from user input.
+      read -p "Please enter the domain you want to secure: " yuming
       
-      # 停止 Nginx 容器。
+      # Stop the Nginx container.
       docker stop nginx || exit 1
       
-      # 安装 acme.sh。
+      # Install acme.sh.
       curl https://get.acme.sh | sh || exit 1
       
-      # 注册 Let's Encrypt 账户并生成证书。
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue --standalone -d $yuming \
+      # Register a Let's Encrypt account and generate certificates.
+      /root/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue --standalone -d $yuming \
       --key-file /root/out/${yuming}.key \
       --fullchain-file /root/out/${yuming}.cer || exit 1
       
-      # 启动 X-UI 并保持容器运行（在 Docker 容器内执行）。
+      # Start X-UI and keep it running.
       x-ui start && sleep infinity || exit 1
       
-      # 下载并修改 Nginx 配置文件，替换其中的 yuming.com 为用户输入的域名。
-      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf || exit 1
-      sed -i "s/yuming\.com/$yuming/g" /home/web/conf.d/$yuming.conf || exit 1
-      sed -i "s#root \/usr\/share\/nginx\/html\/yuming\.com;#root \/usr\/share\/nginx\/html\/$yuming;#g" /home/web/conf.d/$yuming.conf || exit 1
-      sed -i "s/access_log.*$/access_log \/usr/share/nginx/html/${yumbing}\/sssvip.log;/g" /home/web/conf.d/$yumming.conf || exit 1
-      sed -i "s/error_log.*$/error_log \/usr/share/nginx/html/${yumming}\/sssvip.error.log;/g" /home/web/conf.d/$yumming.conf||exit 1
+      # Download and modify the Nginx configuration file, replacing placeholder values with user-provided domain name.
+      wget -O /etc/nginx/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf || exit 1
+      sed -i "s/yuming\.com/$yuming/g" /etc/nginx/conf.d/$yuming.conf || exit 1
+      sed -i "s#root \/usr\/share\/nginx\/html\/yuming\.com;#root \/usr\/share\/nginx\/html\/$yuming;#g" /etc/nginx/conf.d/$yuming.conf || exit 1
+      sed -i "s/access_log.*$/access_log \/var/log/nginx/${yumbing}_access.log;/g" /etc/nginx/conf.d/$yumming.conf || exit 1
+      sed -i "s/error_log.*$/error_log \/var/log/nginx/${yumming}_error.log;/g" /etc/nginx/conf.d/$yumming.conf||exit 1
+            
       docker restart nginx
       docker-compose up -d 
-      
-      docker exec nginx nginx -s reload 
-      
 
       ;;
 
