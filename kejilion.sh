@@ -1560,55 +1560,21 @@ case $choice in
         ;;
 
       10)
-      clear
-      # wordpress
+      mkdir -p /x-ui
+      cd /x-ui
+docker run -d --name=x-ui --restart=always --network=host stilleshan/x-ui
+docker cp /x-ui:/etc/x-ui/x-ui.db .
+# 拷贝 x-ui.db 至宿主机/x-ui目录
+docker stop x-ui
+# 停止容器
+docker rm x-ui
+# 删除容器
+docker run -d --name=x-ui --restart=always --network=host -v /x-ui/x-ui.db:/etc/x-ui/x-ui.db -v /x-ui/ssl:/ssl stilleshan/x-ui
+
+
+
+
       
-      # 输入要解析的域名
-      read -p "请输入你解析的域名: " yuming
-      
-      # 创建数据库名
-      dbname=$(echo "$yuming" | sed -e 's/[^A-Za-z0-9]/_/g')
-      
-      # 定义基础目录
-      base_dir="/home/web/x-ui"
-      
-      # 创建基础目录
-      mkdir -p "$base_dir"
-      
-      # 更改目录权限
-      chmod -R 777 "$base_dir"
-      
-      # 下载 docker-compose 文件
-      wget -O "$base_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
-      
-      # 启动 x-ui 容器
-      cd "$base_dir" && docker-compose up -d
-      
-      # 暂停 nginx 容器
-      docker stop nginx
-      
-      # 安装 acme.sh
-      cd ~
-      curl https://get.acme.sh | sh
-      #mkdir -p "$base_dir/certs"
-      # 注册账户和颁发 SSL 证书
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d "$yuming" --standalone --key-file "$base_dir/cert/${yuming}_key.pem" --cert-file "$base_dir/cert/${yuming}_cert.pem" --force
-      
-      # 启动 nginx 容器
-      docker start nginx
-      
-      # 下载和更新 Nginx 配置文件
-      wget -O "/home/web/conf.d/$yuming.conf" https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      sed -i "s/yuming.com/$yuming/g" "/home/web/conf.d/$yuming.conf"
-      
-      # 重启 Nginx 以应用新配置
-      docker exec nginx nginx -s reload
-      
-      # 清除屏幕
-      clear
-      
-      echo "您的x-ui搭建好了！"
-     
       ;;
 
       21)
