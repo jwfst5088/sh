@@ -1561,11 +1561,7 @@ case $choice in
 
       10)
       clear
-      docker exec -it xui /bin/sh
-
-      chmod -R 777 /home/web/x-ui
-
-      exit
+      #!/bin/bash
 
       # 基础目录
       base_dir="/home/web/xui"
@@ -1581,6 +1577,9 @@ case $choice in
       
       # Create a directory for x-ui and navigate into it.
       mkdir -p "$base_dir" && cd "$base_dir"
+      
+      # Change permissions for x-ui directory.
+      chmod -R 777 "$base_dir"
       
       # Download the docker-compose file for x-ui.
       wget -O "$xui_config_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
@@ -1606,7 +1605,6 @@ case $choice in
       # Download and update the Nginx configuration file.
       wget -O "$nginx_conf_dir/$yuming.conf" https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" "$nginx_conf_dir/$yuming.conf"
-      
       
       # Restart Nginx to apply the new configuration.
       docker exec nginx nginx -s reload
