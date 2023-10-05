@@ -1211,7 +1211,7 @@ case $choice in
       
       # 删除压缩包
       rm latest.zip
-      
+      cd /home/web && docker-compose up -d
       echo "define('FS_METHOD', 'direct'); define('WP_REDIS_HOST', 'redis'); define('WP_REDIS_PORT', '6379');" >> /home/web/html/$yuming/wordpress/wp-config-sample.php
 
       docker exec nginx chmod -R 777 /var/www/html && docker exec php chmod -R 777 /var/www/html && docker exec php74 chmod -R 777 /var/www/html
