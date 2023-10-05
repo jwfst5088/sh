@@ -1568,8 +1568,10 @@ case $choice in
       
       #!/bin/bash
 
+     #!/bin/bash
+
       # Create a directory for x-ui and navigate into it.
-      mkdir x-ui && cd x-ui
+      mkdir -p x-ui && cd x-ui
       
       # Download the docker-compose file for x-ui.
       wget https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
@@ -1577,21 +1579,28 @@ case $choice in
       # Start the Docker services defined in the docker-compose file.
       docker compose up -d
       
+      # Input the domain name for SSL certificate.
       read -p "请输入你解析的域名: " yuming
       
-      # Stop nginx container (Assuming you have an nginx container running).
+      # Stop the nginx container (Assuming you have an nginx container running).
       docker stop nginx
-
-      cd ~
+      
+      # Install acme.sh for SSL certificate management.
       curl https://get.acme.sh | sh
+      
+      # Issue and renew the SSL certificate using acme.sh.
       ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
-
+      
+      # Start the nginx container.
       docker start nginx
-            
+      
+      # Download and update the Nginx configuration file.
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
       
-      nginx -t && nginx -s reload 
+      # Restart Nginx to apply the new configuration.
+      docker restart nginx
+
 
       ;;
 
