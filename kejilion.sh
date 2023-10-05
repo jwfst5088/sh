@@ -1569,7 +1569,7 @@ case $choice in
       cd ~
       mkdir -p cert 
       curl https://get.acme.sh | sh
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /root/cert/${yuming}_key.pem --cert-file /root/cert/${yuming}_cert.pem --force
+      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /root/cert/key.pem --cert-file /root/cert/cert.pem --force
 
       docker start nginx
       # 定义基础目录
