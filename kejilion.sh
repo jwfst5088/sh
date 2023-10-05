@@ -1575,23 +1575,17 @@ case $choice in
       # Nginx 配置文件路径
       nginx_conf_dir="$base_dir/nginx-conf"
       
+      # Stop the nginx container (Assuming you have an nginx container running).
+      docker stop nginx
+      
       # Create a directory for x-ui and navigate into it.
-      mkdir -p "$base_dir" && cd "$base_dir"
+      mkdir -p "$base_dir"
       
       # Change permissions for x-ui directory.
       chmod -R 777 "$base_dir"
       
-      # Download the docker-compose file for x-ui.
-      wget -O "$xui_config_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
-      
-      # Start the Docker services defined in the docker-compose file.
-      docker compose up -d
-      
       # Input the domain name for SSL certificate.
       read -p "请输入你解析的域名: " yuming
-      
-      # Stop the nginx container (Assuming you have an nginx container running).
-      docker stop nginx
       
       # Install acme.sh for SSL certificate management.
       curl https://get.acme.sh | sh
@@ -1602,12 +1596,19 @@ case $choice in
       # Start the nginx container.
       docker start nginx
       
+      # Download the docker-compose file for x-ui.
+      wget -O "$xui_config_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
+      
+      # Start the Docker services defined in the docker-compose file.
+      docker compose up -d
+      
       # Download and update the Nginx configuration file.
       wget -O "$nginx_conf_dir/$yuming.conf" https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" "$nginx_conf_dir/$yuming.conf"
       
       # Restart Nginx to apply the new configuration.
       docker exec nginx nginx -s reload
+
 
       ;;
 
