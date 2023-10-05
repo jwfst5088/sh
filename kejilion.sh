@@ -1606,7 +1606,8 @@ case $choice in
       # Restart Nginx to apply the new configuration.
       docker exec nginx nginx -s reload
 
-
+      cd /home/web/html
+      mkdir $yuming
       ;;
 
       21)
