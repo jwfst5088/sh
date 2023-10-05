@@ -1601,7 +1601,7 @@ case $choice in
       
       # Download and update the Nginx configuration file.
       wget -O "$nginx_conf_dir/$yuming.conf" https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+      sed -i "s/yuming.com/$yuming/g" $nginx_conf_dir/$yuming.conf
       
       
       # Restart Nginx to apply the new configuration.
