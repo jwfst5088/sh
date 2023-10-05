@@ -1590,9 +1590,9 @@ case $choice in
       # 安装 acme.sh
       cd ~
       curl https://get.acme.sh | sh
-      
+      #mkdir -p "$base_dir/certs"
       # 注册账户和颁发 SSL 证书
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d "$yuming" --standalone --key-file "$base_dir/certs/${yuming}_key.pem" --cert-file "$base_dir/certs/${yuming}_cert.pem" --force
+      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d "$yuming" --standalone --key-file "$base_dir/cert/${yuming}_key.pem" --cert-file "$base_dir/cert/${yuming}_cert.pem" --force
       
       # 启动 nginx 容器
       docker start nginx
