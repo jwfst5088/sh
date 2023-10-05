@@ -1192,8 +1192,8 @@ case $choice in
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
       
       cd /home/web/html
-      mkdir $yuming
-      cd $yuming
+      #mkdir $yuming
+      #cd $yuming
       #wget -O latest.zip https://cn.wordpress.org/latest-zh_CN.zip
       #unzip latest.zip
       #rm latest.zip
@@ -1203,7 +1203,8 @@ case $choice in
         echo "路径 $yuming 已经存在，删除中..."
         rm -rf "$yuming"
       fi
-      
+      mkdir $yuming
+      cd $yuming
       # 下载并解压 WordPress 的安装包
       wget -O latest.zip https://cn.wordpress.org/latest-zh_CN.zip
       unzip latest.zip
