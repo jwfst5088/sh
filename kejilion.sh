@@ -1198,6 +1198,27 @@ case $choice in
       unzip latest.zip
       rm latest.zip
 
+      # 定义 WordPress 的安装路径
+      dir="/home/web/html/$yuming/"
+      
+      # 检查路径是否存在，如果存在则删除
+      if [ -d "$dir" ]; then
+        echo "路径 $dir 已经存在，删除中..."
+        rm -rf "$dir"
+      fi
+      
+      # 下载并解压 WordPress 的安装包
+      echo "下载 WordPress 的安装包..."
+      wget -O latest.zip https://cn.wordpress.org/latest-zh_CN.zip
+      echo "解压 WordPress 的安装包到 $dir ..."
+      unzip latest.zip -d "$dir"
+      
+      # 删除压缩包
+      rm -f latest.zip
+      
+      # 完成安装
+      echo "WordPress 已经成功安装到 $dir 。"
+
 
       echo "define('FS_METHOD', 'direct'); define('WP_REDIS_HOST', 'redis'); define('WP_REDIS_PORT', '6379');" >> /home/web/html/$yuming/wordpress/wp-config-sample.php
 
