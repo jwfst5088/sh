@@ -1561,7 +1561,8 @@ case $choice in
 
       10)
       clear
-      docker exec x-ui chmod -R 755 /home/web
+      sudo chmod -R 755 /home/web/x-ui
+
       
 
       # 基础目录
