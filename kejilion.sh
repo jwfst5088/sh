@@ -1223,7 +1223,7 @@ case $choice in
       
       docker exec mysql mysql -u root -p"$dbrootpasswd" -e "CREATE DATABASE $dbname; GRANT ALL PRIVILEGES ON $dbname.* TO \"$dbuse\"@\"%\";"
 
-      docker restart php && docker restart php74 && docker restart nginx
+      docker restart php && docker restart php74 && docker restart nginx && docker restart mysql
       
       clear
       echo "您的WordPress搭建好了！"
