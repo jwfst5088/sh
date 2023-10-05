@@ -1607,7 +1607,7 @@ case $choice in
       docker exec nginx nginx -s reload
 
       cd /home/web/html
-      mkdir $yuming
+      mkdir $yuming222
       ;;
 
       21)
