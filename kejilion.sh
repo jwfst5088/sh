@@ -1580,7 +1580,7 @@ case $choice in
       # Start the Docker services defined in the docker-compose file.
       docker compose up -d
       # 基础目录
-      base_dir="/home/web/xui"
+      base_dir="/home/web/x-ui"
       
       # x-ui 配置文件路径
       xui_config_dir="$base_dir/config"
