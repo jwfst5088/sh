@@ -1194,9 +1194,9 @@ case $choice in
       cd /home/web/html
       mkdir $yuming
       cd $yuming
-      wget -O latest.zip https://cn.wordpress.org/latest-zh_CN.zip
-      unzip latest.zip
-      rm latest.zip
+      #wget -O latest.zip https://cn.wordpress.org/latest-zh_CN.zip
+      #unzip latest.zip
+      #rm latest.zip
 
       # 定义 WordPress 的安装路径
       dir="/home/web/html/$yuming/"
