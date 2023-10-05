@@ -1561,9 +1561,9 @@ case $choice in
 
       10)
       clear
-      sudo chmod -R 755 /home/web/x-ui
-
-      
+      docker exec -it xui /bin/bash
+      chmod -R 755 /home/web/x-ui
+      exit
 
       # 基础目录
       base_dir="/home/web/xui"
