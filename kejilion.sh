@@ -1562,32 +1562,53 @@ case $choice in
       10)
       clear
       # wordpress
+      
+      # 输入要解析的域名
       read -p "请输入你解析的域名: " yuming
+      
+      # 创建数据库名
       dbname=$(echo "$yuming" | sed -e 's/[^A-Za-z0-9]/_/g')
-      dbname="${dbname}"
-
+      
+      # 定义基础目录
+      base_dir="/home/web/x-ui"
+      
+      # 创建基础目录
+      mkdir -p "$base_dir"
+      
+      # 更改目录权限
+      chmod -R 777 "$base_dir"
+      
+      # 下载 docker-compose 文件
+      wget -O "$base_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
+      
+      # 启动 x-ui 容器
+      cd "$base_dir" && docker-compose up -d
+      
+      # 暂停 nginx 容器
       docker stop nginx
-
+      
+      # 安装 acme.sh
       cd ~
       curl https://get.acme.sh | sh
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
-
+      
+      # 注册账户和颁发 SSL 证书
+      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d "$yuming" --standalone --key-file "$base_dir/certs/${yuming}_key.pem" --cert-file "$base_dir/certs/${yuming}_cert.pem" --force
+      
+      # 启动 nginx 容器
       docker start nginx
-
-      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-
-      # Download the docker-compose file for x-ui.
-      wget -O "/home/web/x-ui/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
       
-      # Start the Docker services defined in the docker-compose file.
-      cd /home/web/x-ui && docker-compose up -d
+      # 下载和更新 Nginx 配置文件
+      wget -O "/home/web/conf.d/$yuming.conf" https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
+      sed -i "s/yuming.com/$yuming/g" "/home/web/conf.d/$yuming.conf"
       
+      # 重启 Nginx 以应用新配置
       docker exec nginx nginx -s reload
-      docker restart nginx
+      
+      # 清除屏幕
       clear
+      
       echo "您的x-ui搭建好了！"
-      clear
+     
       ;;
 
       21)
