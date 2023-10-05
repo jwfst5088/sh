@@ -1561,58 +1561,33 @@ case $choice in
 
       10)
       clear
-       # 基础目录
-      base_dir="/home/web/x-ui"
-      
-      # x-ui 配置文件路径
-      xui_config_dir="$base_dir/config"
-      
-      # SSL 证书路径
-      xui_cert_dir="$base_dir/certs"
-      
-      # Nginx 配置文件路径
-      nginx_conf_dir="$base_dir/nginx-conf"
-
-      cd /home/web/html
-      mkdir $yuming222
-      cd /home/web/x-ui
-      mkdir $yuming222
-      
-      # Input the domain name for SSL certificate.
+      # wordpress
       read -p "请输入你解析的域名: " yuming
-      
-      # Install acme.sh for SSL certificate management.
+      dbname=$(echo "$yuming" | sed -e 's/[^A-Za-z0-9]/_/g')
+      dbname="${dbname}"
+
+      docker stop nginx
+
+      cd ~
       curl https://get.acme.sh | sh
-      
-      # Issue and renew the SSL certificate using acme.sh.
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d "$yuming" --standalone --key-file "$xui_cert_dir/${yuming}_key.pem" --cert-file "$xui_cert_dir/${yuming}_cert.pem" --force
-      
-      # Start the nginx container.
+      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
+
       docker start nginx
-      
+
+      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
+      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+
       # Download the docker-compose file for x-ui.
-      wget -O "$xui_config_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
+      wget -O "/home/web/x-ui/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
       
       # Start the Docker services defined in the docker-compose file.
-      docker compose up -d
-     
+      cd /home/web/x-ui && docker-compose up -d
       
-      # Stop the nginx container (Assuming you have an nginx container running).
-      docker stop nginx
-      
-      # Create a directory for x-ui and navigate into it.
-      mkdir -p "$base_dir"
-      
-      # Change permissions for x-ui directory.
-      chmod -R 777 "$base_dir"
-      # Download and update the Nginx configuration file.
-      wget -O "$nginx_conf_dir/$yuming.conf" https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      sed -i "s/yuming.com/$yuming/g" "$nginx_conf_dir/$yuming.conf"
-      
-      # Restart Nginx to apply the new configuration.
       docker exec nginx nginx -s reload
-
-
+      docker restart nginx
+      clear
+      echo "您的WordPress搭建好了！"
+      clear
       ;;
 
       21)
