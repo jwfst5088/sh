@@ -1560,21 +1560,24 @@ case $choice in
         ;;
 
       10)
-      mkdir -p /x-ui
-      cd /x-ui
-docker run -d --name=x-ui --restart=always --network=host enwaiax/x-ui
-docker cp /x-ui:/etc/x-ui/x-ui.db .
-# 拷贝 x-ui.db 至宿主机/x-ui目录
-docker stop x-ui
-# 停止容器
-docker rm x-ui
-# 删除容器
-docker run -d --name=x-ui --restart=always --network=host -v /x-ui/x-ui.db:/etc/x-ui/x-ui.db -v /x-ui/ssl:/ssl enwaiax/x-ui
-
-
-
-
       
+      mkdir x-ui && cd x-ui
+      docker run -itd --network=host \
+          -v $PWD/db/:/etc/x-ui/ \
+          -v $PWD/cert/:/root/cert/ \
+          --name x-ui --restart=unless-stopped \
+          enwaiax/x-ui:latest
+      docker build -t x-ui .
+      read -p "请输入你解析的域名: " yuming
+
+      docker stop nginx
+
+      cd ~
+      mkdir -p cert 
+      curl https://get.acme.sh | sh
+      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /root/cert/${yuming}_key.pem --cert-file /root/cert/${yuming}_cert.pem --force
+
+      docker start nginx
       ;;
 
       21)
