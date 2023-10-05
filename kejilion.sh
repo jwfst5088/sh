@@ -1561,20 +1561,25 @@ case $choice in
 
       10)
       clear
-      #sudo apt update
-      #sudo apt install snapd nginx
-      #sudo snap install core
-      #sudo snap refresh core
-      #sudo snap install --classic certbot
-      #sudo ln -s /snap/bin/certbot /usr/bin/certbot
-      
       #!/bin/bash
 
+      # 基础目录
+      base_dir="/home/web/xui"
+      
+      # x-ui 配置文件路径
+      xui_config_dir="$base_dir/config"
+      
+      # SSL 证书路径
+      xui_cert_dir="$base_dir/certs"
+      
+      # Nginx 配置文件路径
+      nginx_conf_dir="$base_dir/nginx-conf"
+      
       # Create a directory for x-ui and navigate into it.
-      mkdir -p x-ui && cd x-ui
+      mkdir -p "$base_dir" && cd "$base_dir"
       
       # Download the docker-compose file for x-ui.
-      wget https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
+      wget -O "$xui_config_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
       
       # Start the Docker services defined in the docker-compose file.
       docker compose up -d
@@ -1589,18 +1594,18 @@ case $choice in
       curl https://get.acme.sh | sh
       
       # Issue and renew the SSL certificate using acme.sh.
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
+      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d "$yuming" --standalone --key-file "$xui_cert_dir/${yuming}_key.pem" --cert-file "$xui_cert_dir/${yuming}_cert.pem" --force
       
       # Start the nginx container.
       docker start nginx
       
       # Download and update the Nginx configuration file.
-      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
+      wget -O "$nginx_conf_dir/$yuming.conf" https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+      
       
       # Restart Nginx to apply the new configuration.
       docker exec nginx nginx -s reload
-
 
       ;;
 
