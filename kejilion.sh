@@ -1586,7 +1586,7 @@ case $choice in
       docker exec nginx nginx -s reload
       docker restart nginx
       clear
-      echo "您的WordPress搭建好了！"
+      echo "您的x-ui搭建好了！"
       clear
       ;;
 
