@@ -1562,14 +1562,14 @@ case $choice in
       10)
       mkdir -p /x-ui
       cd /x-ui
-docker run -d --name=x-ui --restart=always --network=host stilleshan/x-ui
+docker run -d --name=x-ui --restart=always --network=host enwaiax/x-ui
 docker cp /x-ui:/etc/x-ui/x-ui.db .
 # 拷贝 x-ui.db 至宿主机/x-ui目录
 docker stop x-ui
 # 停止容器
 docker rm x-ui
 # 删除容器
-docker run -d --name=x-ui --restart=always --network=host -v /x-ui/x-ui.db:/etc/x-ui/x-ui.db -v /x-ui/ssl:/ssl stilleshan/x-ui
+docker run -d --name=x-ui --restart=always --network=host -v /x-ui/x-ui.db:/etc/x-ui/x-ui.db -v /x-ui/ssl:/ssl enwaiax/x-ui
 
 
 
