@@ -1194,9 +1194,25 @@ case $choice in
       cd /home/web/html
       mkdir $yuming
       cd $yuming
-      wget -O latest.zip https://cn.wordpress.org/latest-zh_CN.zip
-      unzip latest.zip
-      rm latest.zip
+      #wget -O latest.zip https://cn.wordpress.org/latest-zh_CN.zip
+      #unzip latest.zip
+      #rm latest.zip
+
+      # 定义文件名和下载地址
+      file="latest.zip"
+      url="https://cn.wordpress.org/latest-zh_CN.zip"
+      
+      # 检查文件是否存在，如果存在则删除
+      if [ -f "$file" ]; then
+        rm -f "$file"
+      fi
+      
+      # 下载文件并覆盖原来的
+      wget -O "$file" "$url"
+      
+      # 解压文件并删除压缩包
+      unzip "$file"
+      rm -f "$file"
 
       echo "define('FS_METHOD', 'direct'); define('WP_REDIS_HOST', 'redis'); define('WP_REDIS_PORT', '6379');" >> /home/web/html/$yuming/wordpress/wp-config-sample.php
 
