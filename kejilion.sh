@@ -1608,6 +1608,8 @@ case $choice in
 
       cd /home/web/html
       mkdir $yuming222
+      cd /home/web/x-ui
+      mkdir $yuming222
       ;;
 
       21)
