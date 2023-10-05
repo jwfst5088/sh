@@ -1561,13 +1561,7 @@ case $choice in
 
       10)
       
-      mkdir x-ui && cd x-ui
-      docker run -itd --network=host \
-          -v $PWD/db/:/etc/x-ui/ \
-          -v $PWD/cert/:/root/cert/ \
-          --name x-ui --restart=unless-stopped \
-          enwaiax/x-ui:latest
-      docker build -t x-ui .
+      
       read -p "请输入你解析的域名: " yuming
 
       docker stop nginx
@@ -1578,6 +1572,20 @@ case $choice in
       ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /root/cert/${yuming}_key.pem --cert-file /root/cert/${yuming}_cert.pem --force
 
       docker start nginx
+      # 定义基础目录
+      base_dir="/home/web"
+      
+  
+      
+      # 更改目录权限
+      chmod -R 777 "$base_dir"
+      
+      # 下载 docker-compose 文件
+      wget -O "$base_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
+      
+      # 启动 x-ui 容器
+      cd "$base_dir" && docker-compose up -d
+      
       ;;
 
       21)
