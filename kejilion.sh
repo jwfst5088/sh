@@ -1561,8 +1561,24 @@ case $choice in
 
       10)
       clear
-      #!/bin/bash
-
+      
+      # Input the domain name for SSL certificate.
+      read -p "请输入你解析的域名: " yuming
+      
+      # Install acme.sh for SSL certificate management.
+      curl https://get.acme.sh | sh
+      
+      # Issue and renew the SSL certificate using acme.sh.
+      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d "$yuming" --standalone --key-file "$xui_cert_dir/${yuming}_key.pem" --cert-file "$xui_cert_dir/${yuming}_cert.pem" --force
+      
+      # Start the nginx container.
+      docker start nginx
+      
+      # Download the docker-compose file for x-ui.
+      wget -O "$xui_config_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
+      
+      # Start the Docker services defined in the docker-compose file.
+      docker compose up -d
       # 基础目录
       base_dir="/home/web/xui"
       
@@ -1583,25 +1599,6 @@ case $choice in
       
       # Change permissions for x-ui directory.
       chmod -R 777 "$base_dir"
-      
-      # Input the domain name for SSL certificate.
-      read -p "请输入你解析的域名: " yuming
-      
-      # Install acme.sh for SSL certificate management.
-      curl https://get.acme.sh | sh
-      
-      # Issue and renew the SSL certificate using acme.sh.
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d "$yuming" --standalone --key-file "$xui_cert_dir/${yuming}_key.pem" --cert-file "$xui_cert_dir/${yuming}_cert.pem" --force
-      
-      # Start the nginx container.
-      docker start nginx
-      
-      # Download the docker-compose file for x-ui.
-      wget -O "$xui_config_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
-      
-      # Start the Docker services defined in the docker-compose file.
-      docker compose up -d
-      
       # Download and update the Nginx configuration file.
       wget -O "$nginx_conf_dir/$yuming.conf" https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" "$nginx_conf_dir/$yuming.conf"
