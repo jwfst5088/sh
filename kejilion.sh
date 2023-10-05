@@ -1562,7 +1562,7 @@ case $choice in
       10)
       clear
       
-      sudo chmod 755 /home/web
+      sudo chmod -R 755 /home/web
 
       # 基础目录
       base_dir="/home/web/xui"
