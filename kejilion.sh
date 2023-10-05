@@ -1568,8 +1568,6 @@ case $choice in
       
       #!/bin/bash
 
-     #!/bin/bash
-
       # Create a directory for x-ui and navigate into it.
       mkdir -p x-ui && cd x-ui
       
@@ -1599,7 +1597,7 @@ case $choice in
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
       
       # Restart Nginx to apply the new configuration.
-      docker restart nginx
+      docker exec nginx nginx -s reload
 
 
       ;;
