@@ -1561,6 +1561,22 @@ case $choice in
 
       10)
       clear
+       # 基础目录
+      base_dir="/home/web/x-ui"
+      
+      # x-ui 配置文件路径
+      xui_config_dir="$base_dir/config"
+      
+      # SSL 证书路径
+      xui_cert_dir="$base_dir/certs"
+      
+      # Nginx 配置文件路径
+      nginx_conf_dir="$base_dir/nginx-conf"
+
+      cd /home/web/html
+      mkdir $yuming222
+      cd /home/web/x-ui
+      mkdir $yuming222
       
       # Input the domain name for SSL certificate.
       read -p "请输入你解析的域名: " yuming
@@ -1579,17 +1595,7 @@ case $choice in
       
       # Start the Docker services defined in the docker-compose file.
       docker compose up -d
-      # 基础目录
-      base_dir="/home/web/x-ui"
-      
-      # x-ui 配置文件路径
-      xui_config_dir="$base_dir/config"
-      
-      # SSL 证书路径
-      xui_cert_dir="$base_dir/certs"
-      
-      # Nginx 配置文件路径
-      nginx_conf_dir="$base_dir/nginx-conf"
+     
       
       # Stop the nginx container (Assuming you have an nginx container running).
       docker stop nginx
@@ -1606,10 +1612,7 @@ case $choice in
       # Restart Nginx to apply the new configuration.
       docker exec nginx nginx -s reload
 
-      cd /home/web/html
-      mkdir $yuming222
-      cd /home/web/x-ui
-      mkdir $yuming222
+
       ;;
 
       21)
