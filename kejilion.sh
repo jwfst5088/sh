@@ -1584,8 +1584,9 @@ case $choice in
 
       # 下载 docker-compose 文件
       wget -O "$base_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
-      # 启动 x-ui 容器
-      cd "$base_dir" && docker-compose up -d --remove-orphans
+      # 启动 x-ui容器
+      cd "$base_dir" && docker-compose down
+      cd "$base_dir" && docker-compose up -d
 
       docker stop nginx
       cd ~
