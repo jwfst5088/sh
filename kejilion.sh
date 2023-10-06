@@ -1567,10 +1567,10 @@ case $choice in
       chmod -R 777 "$base_dir"
 
       # 下载 docker-compose 文件
-      wget -O "$base_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
+      wget -O "$base_dir/xui-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
       # 启动 x-ui容器
-      #cd "$base_dir" && docker-compose down
-      cd "$base_dir" && docker-compose up -d
+      
+      cd "$base_dir" && docker-compose -f xui-compose.yml up -d
 
       docker stop nginx
       cd ~
