@@ -1190,7 +1190,7 @@ case $choice in
 
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/kejilion/nginx/main/wordpress.com.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-      
+
       cd /home/web/html
       mkdir $yuming
       cd $yuming
@@ -1198,33 +1198,17 @@ case $choice in
       unzip latest.zip
       rm latest.zip
 
-      # 检查路径是否存在，如果存在则删除
-      #if [ -d "$yuming" ]; then
-        #echo "路径 $yuming 已经存在，删除中..."
-        #rm -rf "$yuming"
-      #fi
-      #mkdir $yuming
-      #cd $yuming
-      # 下载并解压 WordPress 的安装包
-      #wget -O latest.zip https://cn.wordpress.org/latest-zh_CN.zip
-      #unzip latest.zip
-      
-      # 删除压缩包
-      #rm latest.zip
-      
       echo "define('FS_METHOD', 'direct'); define('WP_REDIS_HOST', 'redis'); define('WP_REDIS_PORT', '6379');" >> /home/web/html/$yuming/wordpress/wp-config-sample.php
 
       docker exec nginx chmod -R 777 /var/www/html && docker exec php chmod -R 777 /var/www/html && docker exec php74 chmod -R 777 /var/www/html
       
       dbrootpasswd=$(grep -oP 'MYSQL_ROOT_PASSWORD:\s*\K.*' /home/web/docker-compose.yml | tr -d '[:space:]')
       dbuse=$(grep -oP 'MYSQL_USER:\s*\K.*' /home/web/docker-compose.yml | tr -d '[:space:]')
-      
       dbusepasswd=$(grep -oP 'MYSQL_PASSWORD:\s*\K.*' /home/web/docker-compose.yml | tr -d '[:space:]')
-      
       docker exec mysql mysql -u root -p"$dbrootpasswd" -e "CREATE DATABASE $dbname; GRANT ALL PRIVILEGES ON $dbname.* TO \"$dbuse\"@\"%\";"
 
       docker restart php && docker restart php74 && docker restart nginx
-      
+
       clear
       echo "您的WordPress搭建好了！"
       echo "https://$yuming"
