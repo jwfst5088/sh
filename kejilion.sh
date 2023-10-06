@@ -1567,7 +1567,7 @@ case $choice in
       chmod -R 777 "$base_dir"
       touch "$base_dir"/xui-compose.yml
       # 下载 docker-compose 文件
-      wget -O "$base_dir/xui-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
+      wget -O "$base_dir/xui-compose.yml" https://raw.githubusercontent.com/jwfst5088/wpxui/main/xui-compose.yml
       # 启动 x-ui容器
       
       cd "$base_dir" && docker-compose -f xui-compose.yml up -d
