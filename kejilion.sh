@@ -1574,32 +1574,25 @@ case $choice in
         ;;
 
       10)
-      
-      
+      clear
       read -p "请输入你解析的域名: " yuming
-
-      docker stop nginx
-
-      cd ~
-      mkdir -p cert 
-      curl https://get.acme.sh | sh
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /root/cert/key.pem --cert-file /root/cert/cert.pem --force
-
-      docker start nginx
+      
       # 定义基础目录
       base_dir="/home/web"
-      
-  
-      
       # 更改目录权限
       chmod -R 777 "$base_dir"
       
+      docker stop nginx
+      cd ~
+      cd "$base_dir" && mkdir -p cert 
+      curl https://get.acme.sh | sh
+      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file "$base_dir"/cert/key.pem --cert-file "$base_dir"/cert/cert.pem --force
+      docker start nginx
+
       # 下载 docker-compose 文件
       wget -O "$base_dir/docker-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
-      
       # 启动 x-ui 容器
       cd "$base_dir" && docker-compose up -d
-      
       ;;
 
       21)
