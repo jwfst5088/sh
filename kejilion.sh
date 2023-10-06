@@ -1578,8 +1578,8 @@ case $choice in
       ~/.acme.sh/acme.sh --register-account -m fan.dianhuai@gmail.com --issue -d $yuming --standalone --key-file "$base_dir"/cert/key.pem --cert-file "$base_dir"/cert/cert.pem --force
       docker start nginx
       
-      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+      #wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
+      #sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
       ;;
 
       21)
