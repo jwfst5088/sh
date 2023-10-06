@@ -1581,8 +1581,8 @@ case $choice in
       
       docker start nginx
       
-      #wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      #sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
+      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
       ;;
 
       21)
