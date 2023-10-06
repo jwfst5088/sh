@@ -1565,7 +1565,7 @@ case $choice in
       base_dir="/home/web"
       # 更改目录权限
       chmod -R 777 "$base_dir"
-
+      touch "$base_dir"/xui-compose.yml
       # 下载 docker-compose 文件
       wget -O "$base_dir/xui-compose.yml" https://raw.githubusercontent.com/chasing66/x-ui/main/docker-compose.yml
       # 启动 x-ui容器
