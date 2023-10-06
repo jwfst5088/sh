@@ -1575,7 +1575,7 @@ case $choice in
       docker stop nginx
       cd ~
       curl https://get.acme.sh | sh
-      ~/.acme.sh/acme.sh --register-account -m fandianhuai@gmail.com --issue -d $yuming --standalone --key-file "$base_dir"/cert/key.pem --cert-file "$base_dir"/cert/cert.pem --force
+      ~/.acme.sh/acme.sh --register-account -m fan.dianhuai@gmail.com --issue -d $yuming --standalone --key-file "$base_dir"/cert/key.pem --cert-file "$base_dir"/cert/cert.pem --force
       docker start nginx
       
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
