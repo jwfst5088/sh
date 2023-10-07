@@ -1583,6 +1583,7 @@ case $choice in
       
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+      docker restart php && docker restart php74 && docker restart nginx
       ;;
 
       21)
