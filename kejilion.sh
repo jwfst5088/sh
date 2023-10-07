@@ -1562,15 +1562,15 @@ case $choice in
       read -p "请输入你解析的域名: " yuming
       
       # 定义基础目录
-      base_dir="/home/web"
+      #base_dir="/home/web"
       # 更改目录权限
-      chmod -R 777 "$base_dir"
-      touch "$base_dir"/xui-compose.yml
+      #chmod -R 777 "$base_dir"
+      #touch "$base_dir"/xui-compose.yml
       # 下载 docker-compose 文件
-      wget -O "$base_dir/xui-compose.yml" https://raw.githubusercontent.com/jwfst5088/wpxui/main/xui-compose.yml
+      #wget -O "$base_dir/xui-compose.yml" https://raw.githubusercontent.com/jwfst5088/wpxui/main/xui-compose.yml
       # 启动 x-ui容器
       
-      cd "$base_dir" && docker-compose -f xui-compose.yml up -d
+      #cd "$base_dir" && docker-compose -f xui-compose.yml up -d
 
       docker stop nginx
       cd ~
