@@ -1578,8 +1578,8 @@ case $choice in
       ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
       docker start nginx
       
-      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
-      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+      #wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
+      #sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
       docker restart php && docker restart php74 && docker restart nginx
       
       clear
