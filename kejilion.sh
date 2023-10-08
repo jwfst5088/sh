@@ -1603,26 +1603,38 @@ case $choice in
 
       101)
       clear
+      # 安装x-ui
       bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
+      
+      # 输入解析的域名
       read -p "请输入你解析的域名: " yuming
       
-      # 创建必要的目录和文件
-      cd /home && mkdir -p web/cert 
+      # 检查证书是否已经存在
+      if [ ! -f "/home/web/certs/${yuming}_key.pem" ] || [ ! -f "/home/web/certs/${yuming}_cert.pem" ]; then
+          echo "没有找到证书文件，开始安装证书..."
       
-      docker stop nginx
-      cd ~
-      curl https://get.acme.sh | sh
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
-      docker start nginx
+          # 停止Nginx容器
+          docker stop nginx
       
+          # 安装证书
+          cd ~
+          curl https://get.acme.sh | sh
+          ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
+      
+          # 启动Nginx容器
+          docker start nginx
+      else
+          echo "证书已存在，不需要重新安装。"
+      fi
+      
+      # 下载配置文件
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-
-      docker restart php && docker restart php74 && docker restart nginx
       
-      clear
-      echo "您的x-ui做好了！"
-
+      # 重启相关容器
+      docker-compose restart php php74 nginx
+      
+      echo "您的x-ui已经配置完成！"
       ;;
 
       21)
