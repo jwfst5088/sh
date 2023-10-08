@@ -1602,6 +1602,7 @@ case $choice in
         ;;
 
       101)
+      :'
       clear
       # 安装x-ui
       bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
@@ -1636,7 +1637,7 @@ case $choice in
       
       echo "您的x-ui已经配置完成！"
       ;;
-
+      '
       21)
       clear
       read -p "请输入你的域名: " yuming
