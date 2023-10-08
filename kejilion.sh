@@ -1601,7 +1601,7 @@ case $choice in
         ;;
 
       11)
-      :'
+      
       clear
       # 安装x-ui
       bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
@@ -1635,7 +1635,7 @@ case $choice in
       docker-compose restart php php74 nginx
       
       echo "您的x-ui已经配置完成！"
-      ';;
+      ;;
       
       21)
       clear
