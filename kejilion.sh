@@ -1208,7 +1208,7 @@ case $choice in
       mkdir $yuming
       cd $yuming
       wget -O latest.zip https://cn.wordpress.org/latest-zh_CN.zip
-      unzip latest.zip
+      unzip -o latest.zip
       rm latest.zip
 
       echo "define('FS_METHOD', 'direct'); define('WP_REDIS_HOST', 'redis'); define('WP_REDIS_PORT', '6379');" >> /home/web/html/$yuming/wordpress/wp-config-sample.php
