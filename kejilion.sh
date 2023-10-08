@@ -1009,6 +1009,8 @@ case $choice in
     echo  "9. 安装Bitwarden密码管理平台"
     echo  "10. 安装Halo博客网站"
     echo  "------------------------"
+    echo  "101.安装x-ui"
+    echo  "------------------------"
     echo  "21. 站点重定向"
     echo  "22. 站点反向代理"
     echo  "------------------------"
@@ -1589,7 +1591,25 @@ case $choice in
       echo ""
         ;;
 
+      101)
+      clear
+      bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
+      read -p "请输入你解析的域名: " yuming
 
+      docker stop nginx
+      curl https://get.acme.sh | sh
+      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
+      docker start nginx
+      
+      wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
+      sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
+
+      docker restart php && docker restart php74 && docker restart nginx
+      
+      clear
+      echo "您的x-ui做好了！"
+
+      ;;
 
       21)
       clear
