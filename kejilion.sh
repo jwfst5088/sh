@@ -1626,11 +1626,12 @@ case $choice in
       else
           echo "证书已存在，不需要重新安装。"
       fi
-      cd ~
+      cd /home/web/conf.d
+     
       # 下载配置文件
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
-      docker restart php && docker restart php74 && docker restart nginx
+      
       # 重启相关容器
       #docker-compose restart php php74 nginx
       
