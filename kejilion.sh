@@ -1560,7 +1560,7 @@ case $choice in
       10)
       clear
       read -p "请输入你解析的域名: " yuming
-      
+      :,
       # 定义基础目录
       base_dir="/home/web"
       # 更改目录权限
@@ -1571,7 +1571,7 @@ case $choice in
       # 启动 x-ui容器
       
       cd "$base_dir" && docker-compose -f xui-compose.yml up -d
-
+      ,
       docker stop nginx
       cd ~
       curl https://get.acme.sh | sh
