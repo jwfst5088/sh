@@ -1633,7 +1633,7 @@ case $choice in
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
       
       # 重启相关容器
-      #docker-compose restart php php74 nginx
+      docker-compose restart php php74 nginx
       
       echo "您的x-ui已经配置完成！"
       ;;
