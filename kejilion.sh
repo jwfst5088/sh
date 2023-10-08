@@ -1626,7 +1626,7 @@ case $choice in
       else
           echo "证书已存在，不需要重新安装。"
       fi
-      
+      cd ~
       # 下载配置文件
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/jwfst5088/wpxui/main/nginx.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
