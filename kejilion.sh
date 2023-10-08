@@ -1636,8 +1636,8 @@ case $choice in
       docker-compose restart php php74 nginx
       
       echo "您的x-ui已经配置完成！"
-      ;;
-      '
+      ';;
+      
       21)
       clear
       read -p "请输入你的域名: " yuming
