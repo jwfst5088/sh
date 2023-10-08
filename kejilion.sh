@@ -1183,13 +1183,23 @@ case $choice in
       dbname=$(echo "$yuming" | sed -e 's/[^A-Za-z0-9]/_/g')
       dbname="${dbname}"
 
-      docker stop nginx
-
-      cd ~
-      curl https://get.acme.sh | sh
-      ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
-
-      docker start nginx
+      # 检查证书是否已经存在
+      if [ ! -f "/home/web/certs/${yuming}_key.pem" ] || [ ! -f "/home/web/certs/${yuming}_cert.pem" ]; then
+          echo "没有找到证书文件，开始安装证书..."
+          
+          # 停止Nginx容器
+          docker stop nginx
+          
+          # 安装证书
+          cd ~
+          curl https://get.acme.sh | sh
+          ~/.acme.sh/acme.sh --register-account -m xxxx@gmail.com --issue -d $yuming --standalone --key-file /home/web/certs/${yuming}_key.pem --cert-file /home/web/certs/${yuming}_cert.pem --force
+          
+          # 启动Nginx容器
+          docker start nginx
+      else
+          echo "证书已存在，不需要重新安装。"
+      fi
 
       wget -O /home/web/conf.d/$yuming.conf https://raw.githubusercontent.com/kejilion/nginx/main/wordpress.com.conf
       sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
