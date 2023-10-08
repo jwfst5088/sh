@@ -1600,7 +1600,7 @@ case $choice in
       echo ""
         ;;
 
-      101)
+      11)
       :'
       clear
       # 安装x-ui
